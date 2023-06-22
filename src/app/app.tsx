@@ -22,6 +22,7 @@ function App() {
       const data = await response.json();
       setRadioData(data);
     }
+
     fetchData();
   }, []);
 

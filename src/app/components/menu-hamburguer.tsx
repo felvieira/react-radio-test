@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AiOutlineHeart,
   AiFillHeart,
@@ -15,14 +15,22 @@ function MenuHamburguer({
 }) {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
 
-  const handleFavorite = (radio) => {
-    if (favoriteRadios.includes(radio)) {
-      setFavoriteRadios(
-        favoriteRadios.filter((favRadio) => favRadio !== radio)
-      );
-    } else {
-      setFavoriteRadios([...favoriteRadios, radio]);
+  useEffect(() => {
+    const storedFavoriteRadios = localStorage.getItem('favorites');
+    if (storedFavoriteRadios) {
+      setFavoriteRadios(JSON.parse(storedFavoriteRadios));
     }
+  }, []);
+
+  const handleFavorite = (radio) => {
+    const updatedFavoriteRadios = [...favoriteRadios];
+    if (updatedFavoriteRadios.includes(radio)) {
+      updatedFavoriteRadios.splice(updatedFavoriteRadios.indexOf(radio), 1);
+    } else {
+      updatedFavoriteRadios.push(radio);
+    }
+    setFavoriteRadios(updatedFavoriteRadios);
+    localStorage.setItem('favorites', JSON.stringify(updatedFavoriteRadios));
   };
 
   const handleSearchMenu = (event) => {
@@ -43,6 +51,7 @@ function MenuHamburguer({
         <button
           role="button"
           aria-label="Abrir menu"
+          name="open"
           onClick={toggleMenuVisibility}
         >
           <AiOutlineMenu
@@ -54,6 +63,7 @@ function MenuHamburguer({
         <button
           role="button"
           aria-label="Fechar menu"
+          name="open"
           onClick={toggleMenuVisibility}
         >
           <AiOutlineClose
@@ -79,8 +89,6 @@ function MenuHamburguer({
               <li key={radio.stationuuid} className="radio-item">
                 <span>{radio.name}</span>
                 <button
-                  role="button"
-                  aria-label={`Favoritar ${radio.name}`}
                   onClick={() => handleFavorite(radio)}
                   className={`${
                     favoriteRadios.includes(radio)
