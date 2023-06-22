@@ -72,6 +72,15 @@
       "options": {
         "buildTarget": "org:build"
       }
+    },
+    "component-test": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "cypress.config.ts",
+        "testingType": "component",
+        "devServerTarget": "org:build",
+        "skipServe": true
+      }
     }
   },
   "tags": []

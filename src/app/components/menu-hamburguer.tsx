@@ -38,17 +38,30 @@ function MenuHamburguer({
   };
 
   return (
-    <div className="menu-hamburguer h-screen bg-white z-10 transition duration-300 ease-in-out transform translate-x-0">
+    <div className="menu-hamburguer h-screen bg-white z-10 transition duration-300 ease-in-out transform translate-x-0 fixed">
       <div className="flex justify-between items-center bg-blue-500 text-white p-4">
-        <AiOutlineMenu
-          className={`h-6 w-6 cursor-pointer ${isMenuVisible ? 'hidden' : ''}`}
+        <button
+          role="button"
+          aria-label="Abrir menu"
           onClick={toggleMenuVisibility}
-        />
-
-        <AiOutlineClose
-          className={`h-6 w-6 cursor-pointer ${isMenuVisible ? '' : 'hidden'}`}
+        >
+          <AiOutlineMenu
+            className={`h-6 w-6 cursor-pointer ${
+              isMenuVisible ? 'hidden' : ''
+            }`}
+          />
+        </button>
+        <button
+          role="button"
+          aria-label="Fechar menu"
           onClick={toggleMenuVisibility}
-        />
+        >
+          <AiOutlineClose
+            className={`h-6 w-6 cursor-pointer ${
+              isMenuVisible ? '' : 'hidden'
+            }`}
+          />
+        </button>
       </div>
 
       {isMenuVisible && (
@@ -66,6 +79,8 @@ function MenuHamburguer({
               <li key={radio.stationuuid} className="radio-item">
                 <span>{radio.name}</span>
                 <button
+                  role="button"
+                  aria-label={`Favoritar ${radio.name}`}
                   onClick={() => handleFavorite(radio)}
                   className={`${
                     favoriteRadios.includes(radio)

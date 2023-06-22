@@ -2,7 +2,7 @@
 
 Utilizado NX com React
 
-url da aplicacao:
+url da aplicacao: https://react-radio-test.vercel.app/
 
 ## Introdução
 
