@@ -53,9 +53,9 @@ function MenuHamburguer({
     );
 
     return isFavorite ? (
-      <AiFillHeart className="h-6 w-6 inline-block align-text-bottom" />
+      <AiFillHeart className="h-6 w-6 inline-block ml-2 align-text-bottom" />
     ) : (
-      <AiOutlineHeart className="h-6 w-6 inline-block align-text-bottom" />
+      <AiOutlineHeart className="h-6 w-6 inline-block ml-2 align-text-bottom" />
     );
   };
 
@@ -104,7 +104,10 @@ function MenuHamburguer({
 
           <ul className="radio-list">
             {filteredRadiosMenu.map((radio) => (
-              <li key={radio.stationuuid} className="radio-item">
+              <li
+                key={radio.stationuuid}
+                className="radio-item py-2 border-b-2"
+              >
                 <span>{radio.name}</span>
                 <button
                   onClick={() => handleFavorite(radio)}

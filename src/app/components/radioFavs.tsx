@@ -64,9 +64,9 @@ const RadioFavs = ({
         {filteredFavoriteRadios.map((radio) => (
           <li
             key={radio.stationuuid}
-            className="flex items-center justify-between bg-white rounded shadow p-4"
+            className="flex max-[600px]:flex-col items-center justify-between bg-white rounded shadow p-4"
           >
-            <span>{radio.name}</span>
+            <div>{radio.name}</div>
             <div>{renderPlayButton(radio)}</div>
           </li>
         ))}
