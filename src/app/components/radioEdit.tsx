@@ -20,10 +20,7 @@ const RadioEditModal = ({ radio, onSave, onCancel }) => {
   };
 
   return (
-    <div
-      className="absolute w-full h-screen flex items-center justify-center z-50 bg-black bg-opacity-50"
-      style={{ backgroundColor: '#0000006b' }}
-    >
+    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
       <div className="bg-white rounded shadow-lg p-4">
         <h2 className="text-lg font-bold mb-4">Editar Rádio</h2>
         <form>

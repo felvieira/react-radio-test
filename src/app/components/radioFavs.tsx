@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { AiOutlinePlayCircle, AiOutlinePause } from 'react-icons/ai';
 import { BsStopFill } from 'react-icons/bs';
 import { RiEdit2Line, RiDeleteBin2Line } from 'react-icons/ri';
@@ -13,6 +13,42 @@ const RadioFavs = ({
   handleEditRadio,
   handleDeleteRadio,
 }) => {
+  const renderPlayButton = (radio) => {
+    if (playingRadio && playingRadio.stationuuid === radio.stationuuid) {
+      return (
+        <button
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          onClick={handleStop}
+        >
+          <BsStopFill className="h-6 w-6 inline-block align-text-bottom" />
+        </button>
+      );
+    } else {
+      return (
+        <>
+          <button
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
+            onClick={() => handlePlayPause(radio)}
+          >
+            <AiOutlinePlayCircle className="h-6 w-6 inline-block align-text-bottom" />
+          </button>
+          <button
+            className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2"
+            onClick={() => handleEditRadio(radio)}
+          >
+            <RiEdit2Line className="h-6 w-6 inline-block align-text-bottom" />
+          </button>
+          <button
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => handleDeleteRadio(radio)}
+          >
+            <RiDeleteBin2Line className="h-6 w-6 inline-block align-text-bottom" />
+          </button>
+        </>
+      );
+    }
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <input
@@ -31,38 +67,7 @@ const RadioFavs = ({
             className="flex items-center justify-between bg-white rounded shadow p-4"
           >
             <span>{radio.name}</span>
-            <div>
-              {playingRadio &&
-              playingRadio.stationuuid === radio.stationuuid ? (
-                <button
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={handleStop}
-                >
-                  <BsStopFill className="h-6 w-6 inline-block align-text-bottom" />
-                </button>
-              ) : (
-                <>
-                  <button
-                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
-                    onClick={() => handlePlayPause(radio)}
-                  >
-                    <AiOutlinePlayCircle className="h-6 w-6 inline-block align-text-bottom" />
-                  </button>
-                  <button
-                    className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2"
-                    onClick={() => handleEditRadio(radio)}
-                  >
-                    <RiEdit2Line className="h-6 w-6 inline-block align-text-bottom" />
-                  </button>
-                  <button
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                    onClick={() => handleDeleteRadio(radio)}
-                  >
-                    <RiDeleteBin2Line className="h-6 w-6 inline-block align-text-bottom" />
-                  </button>
-                </>
-              )}
-            </div>
+            <div>{renderPlayButton(radio)}</div>
           </li>
         ))}
       </ul>

@@ -12,6 +12,7 @@ function MenuHamburguer({
   setFavoriteRadios,
   searchQueryMenu,
   setSearchQueryMenu,
+  saveFavoriteRadiosToLocalStorage,
 }) {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
 
@@ -24,26 +25,43 @@ function MenuHamburguer({
 
   const handleFavorite = (radio) => {
     const updatedFavoriteRadios = [...favoriteRadios];
-    if (updatedFavoriteRadios.includes(radio)) {
-      updatedFavoriteRadios.splice(updatedFavoriteRadios.indexOf(radio), 1);
+    const radioIndex = updatedFavoriteRadios.findIndex(
+      (fav) => fav.stationuuid === radio.stationuuid
+    );
+
+    if (radioIndex !== -1) {
+      updatedFavoriteRadios.splice(radioIndex, 1);
     } else {
       updatedFavoriteRadios.push(radio);
     }
+
     setFavoriteRadios(updatedFavoriteRadios);
-    localStorage.setItem('favorites', JSON.stringify(updatedFavoriteRadios));
+    saveFavoriteRadiosToLocalStorage(updatedFavoriteRadios);
   };
 
   const handleSearchMenu = (event) => {
     setSearchQueryMenu(event.target.value);
   };
 
-  const filteredRadiosMenu = radioData.filter((radio) =>
-    radio.name.toLowerCase().includes(searchQueryMenu.toLowerCase())
-  );
-
   const toggleMenuVisibility = () => {
     setIsMenuVisible(!isMenuVisible);
   };
+
+  const renderHeartIcon = (radio) => {
+    const isFavorite = favoriteRadios.some(
+      (fav) => fav.stationuuid === radio.stationuuid
+    );
+
+    return isFavorite ? (
+      <AiFillHeart className="h-6 w-6 inline-block align-text-bottom" />
+    ) : (
+      <AiOutlineHeart className="h-6 w-6 inline-block align-text-bottom" />
+    );
+  };
+
+  const filteredRadiosMenu = radioData.filter((radio) =>
+    radio.name.toLowerCase().includes(searchQueryMenu.toLowerCase())
+  );
 
   return (
     <div className="menu-hamburguer h-screen bg-white z-10 transition duration-300 ease-in-out transform translate-x-0 fixed">
@@ -91,16 +109,14 @@ function MenuHamburguer({
                 <button
                   onClick={() => handleFavorite(radio)}
                   className={`${
-                    favoriteRadios.includes(radio)
+                    favoriteRadios.some(
+                      (fav) => fav.stationuuid === radio.stationuuid
+                    )
                       ? 'text-red-500'
                       : 'text-gray-500'
                   }`}
                 >
-                  {favoriteRadios.includes(radio) ? (
-                    <AiFillHeart className="h-6 w-6 inline-block align-text-bottom" />
-                  ) : (
-                    <AiOutlineHeart className="h-6 w-6 inline-block align-text-bottom" />
-                  )}
+                  {renderHeartIcon(radio)}
                 </button>
               </li>
             ))}
